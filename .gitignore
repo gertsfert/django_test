@@ -1,0 +1,4 @@
+# python virtual environment files
+bin/.*
+lib/.*
+pip-selfcheck.json
