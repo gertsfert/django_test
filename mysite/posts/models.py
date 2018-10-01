@@ -8,3 +8,6 @@ class Posts(models.Model):
     created_at = models.DateTimeField(default=datetime.now, blank=True)
     class Meta:
         verbose_name_plural = 'Posts'
+
+    def __str__(self):
+        return self.title
