@@ -1,3 +1,3 @@
 # ignoring venv files
-bin/.*
-lib/.*
+bin/
+lib/
