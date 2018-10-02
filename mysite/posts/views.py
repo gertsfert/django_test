@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Post
 from .forms import PostForm
@@ -46,5 +46,24 @@ def post_new(request):
         }
 
         return render(request, 'posts/post_edit.html', context)
+
+def post_edit(request, id):
+    post = get_object_or_404(Post, id=id)
+
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = requst.user
+            post.created_at = datetime.now()
+            post.save()
+            return redirect('post_detail', id=post.id)
+    else:
+        form = PostForm(instance=post)
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'posts/post_edit.html', context)
 
 
