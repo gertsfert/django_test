@@ -1,7 +1,7 @@
 {% extends 'posts/layout.html' %}
 
 {% block content %}
-<h1>New Post</h1>
+<h4 class='center-align purple-text lighten-1'> {{title}} </h4>
 
 <form method="POST" class="post-form">{% csrf_token %}
     {{ form.as_p }}

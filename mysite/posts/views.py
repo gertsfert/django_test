@@ -41,6 +41,7 @@ def post_new(request):
     else:
         form = PostForm()
         context = {
+            'title': 'New Post',
             'form': form, 
         }
 
