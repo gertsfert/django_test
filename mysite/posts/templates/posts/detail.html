@@ -11,16 +11,21 @@
     </div>
 </div>
 
-<hr>
-{% for comment in post.comments.all %}
-    <div class="comment">
-        <div class="date">{{ comment.created_at }}</div>
-        <strong>{{ comment.author }}</strong>
-        <p>{{ comment.body }}</p>
-    </div>
-{% empty %}
-    <p>No comments here yet.</p>
-{% endfor %}
+<h6>Comments from my readers</h6>
+<ul class='collection'>
+    {% for comment in post.comments.all %}
+        <li class="collection-item">
+            <span class="title">{{ comment.created_at }}</span>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.body }}</p>
+        </li>
 
-<a class='btn purple lighten-3' href="/posts">Go Back</a>
+    {% empty %}
+        <p>No comments here yet.</p>
+    {% endfor %}
+</ul>
+
+
+
+<a class='btn-small waves-effect waves-light' href="/posts">Go Back</a>
 {% endblock %}
