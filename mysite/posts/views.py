@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Post
 from .forms import PostForm
+
+from datetime import datetime
 # Create your views here.
 def index(request):
     
@@ -24,10 +26,24 @@ def details(request, id):
     return render(request, 'posts/detail.html', context)
 
 def post_new(request):
-    form = PostForm()
 
-    context = {
-        'form': form, 
-    }
+    if request.method == "POST":
+        form = PostForm(request.POST)
 
-    return render(request, 'posts/post_edit.html', context)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.created_at = datetime.now()
+            post.save()
+
+            return redirect('details', id=post.id)
+
+    else:
+        form = PostForm()
+        context = {
+            'form': form, 
+        }
+
+        return render(request, 'posts/post_edit.html', context)
+
+
