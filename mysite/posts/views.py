@@ -54,10 +54,10 @@ def post_edit(request, id):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = requst.user
+            post.author = request.user
             post.created_at = datetime.now()
             post.save()
-            return redirect('post_detail', id=post.id)
+            return redirect('details', id=post.id)
     else:
         form = PostForm(instance=post)
     
