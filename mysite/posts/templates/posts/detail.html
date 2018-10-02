@@ -11,11 +11,13 @@
     </div>
 </div>
 
+{% if user.is_authenticated %}
 <div class='right-align'>
         <a class="waves-effect waves-light btn-small" href="{% url 'post_edit' id=post.id %}">
             <i class="material-icons left">create</i>Edit Post
         </a>
 </div>
+{% endif %}
 
 <h6>Comments from my readers</h6>
 <ul class='collection'>
