@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .models import Posts
+from .models import Post
 # Create your views here.
 def index(request):
     
-    posts = Posts.objects.all()[:10]
+    posts = Post.objects.all()[:10]
 
     context = {
         'title': 'Latest Entries',
@@ -15,7 +15,7 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 def details(request, id):
-    post = Posts.objects.get(id=id)
+    post = Post.objects.get(id=id)
 
     context = {
         'post': post, 
