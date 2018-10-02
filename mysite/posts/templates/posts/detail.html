@@ -10,5 +10,17 @@
         {{post.created_at}}
     </div>
 </div>
+
+<hr>
+{% for comment in post.comments.all %}
+    <div class="comment">
+        <div class="date">{{ comment.created_at }}</div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.body }}</p>
+    </div>
+{% empty %}
+    <p>No comments here yet.</p>
+{% endfor %}
+
 <a class='btn purple lighten-3' href="/posts">Go Back</a>
 {% endblock %}
