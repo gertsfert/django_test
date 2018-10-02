@@ -24,4 +24,4 @@ class Comment(models.Model):
         self.save()
     
     def __str__(self):
-        return self.author + " (" + self.created_at + ")"
+        return self.author + " on " + str(self.created_at)
