@@ -32,6 +32,12 @@
                 </a>
             </div>
         {% endif %}
+        <div class='col'>
+            <a class="waves-effect waves-light btn-small"
+                href="{% url 'post_remove' id=post.id %}">
+                <i class="material-icons left">delete</i>Delete Post
+            </a>
+        </div>
     </div>
 {% endif %}
 
