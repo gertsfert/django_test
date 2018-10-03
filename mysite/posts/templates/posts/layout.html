@@ -12,22 +12,30 @@
     <title>Django-Test (Posts)</title>
 </head>
 <body>
+    <!-- Drop down NAVBAR -->
+
+    <!-- Dropdown Structure -->
+    {% if user.is_authenticated %}
+    <ul id="dropdown1" class="dropdown-content active">
+        <li><a href="{% url 'post_new' %}" class='purple-text lighten-1'>
+            <i class="material-icons">add</i>New Post</a></li>
+        <li><a href="{% url 'post_draft_list' %}" class='purple-text lighten-1'>
+            <i class="material-icons">drafts</i>Review Drafts</a></li>
+    </ul>
+    {% endif %}
+
     <nav>
         <div class="nav-wrapper purple lighten-1">
-            <a href="/posts" class="brand-logo center">Posts</a>
+        <a href="/posts" class="brand-logo">Posts</a>
+        <ul class="right hide-on-med-and-down">
+
+            <!-- Dropdown Trigger -->
             {% if user.is_authenticated %}
-            <!-- Add new posts button -->
-            <a class="btn-floating btn-large halfway-fab waves-effect waves-light teal" 
-                href="{% url 'post_new' %}">
-                <i class="material-icons">add</i>
-            </a>
-            <br><br>
-            <!-- Review unpublished posts button -->
-            <a class="large waves-effect waves-light teal"
-                href="{% url 'post_draft_list' %}">
-                <i class="material-icons">drafts</i>
-            </a>
+                <li><a class="dropdown-trigger active" href="#!" data-target="dropdown1">{{ user.username }}
+                    <i class="material-icons right">menu</i></a></li>
             {% endif %}
+
+        </ul>
         </div>
     </nav>
 
@@ -41,6 +49,19 @@
 
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="{% static "materialize.js" %}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            
+            var options = {
+                coverTrigger: false,
+                constrainWidth: false
+            }
+
+            var instances = M.Dropdown.init(elems, options);
+            });  
+    </script>
 </body>
 </body>
 </html>
