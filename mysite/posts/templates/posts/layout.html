@@ -21,6 +21,8 @@
             <i class="material-icons">add</i>New Post</a></li>
         <li><a href="{% url 'post_draft_list' %}" class='purple-text lighten-1'>
             <i class="material-icons">drafts</i>Review Drafts</a></li>
+        <li><a href="/admin" class='purple-text lighten-1'>
+                <i class="material-icons">lock</i>Admin</a></li>
     </ul>
     {% endif %}
 
@@ -33,6 +35,9 @@
             {% if user.is_authenticated %}
                 <li><a class="dropdown-trigger active" href="#!" data-target="dropdown1">{{ user.username }}
                     <i class="material-icons right">menu</i></a></li>
+                {% else %}
+                <li><a href="/admin">Admin Login
+                        <i class="material-icons right">lock</i></a></li>
             {% endif %}
 
         </ul>
