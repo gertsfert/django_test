@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Post
 from .forms import PostForm
+from django.utils import timezone
 
-from datetime import datetime
 # Create your views here.
 def index(request):
     
@@ -33,7 +33,7 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.created_at = datetime.now()
+            post.created_at = timezone.now()
             post.save()
 
             return redirect('details', id=post.id)
@@ -55,7 +55,7 @@ def post_edit(request, id):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.created_at = datetime.now()
+            post.created_at = timezone.now()
             post.save()
             return redirect('details', id=post.id)
     else:
