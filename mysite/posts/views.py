@@ -45,7 +45,7 @@ def post_new(request):
             'form': form, 
         }
 
-        return render(request, 'posts/post_edit.html', context)
+        return render(request, 'posts/edit.html', context)
 
 def post_edit(request, id):
     post = get_object_or_404(Post, id=id)
@@ -64,6 +64,15 @@ def post_edit(request, id):
     context = {
         'form': form,
     }
-    return render(request, 'posts/post_edit.html', context)
+    return render(request, 'posts/edit.html', context)
 
+def post_draft_list(request):
+    posts = Post.objects.filter(published_at__isnull=True).order_by('created_at')
+
+    context = {
+        'posts': posts,
+        'title': 'Unpublished Posts'
+    }
+
+    return render(request, 'posts/index.html', context)
 
