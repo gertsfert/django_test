@@ -6,8 +6,6 @@ from django.utils import timezone
 
 # Create your views here.
 def index(request):
-    
-    posts = Post.objects.all()[:10]
 
     posts = Post.objects.filter(published_at__lte=timezone.now()).order_by('published_at')
 
