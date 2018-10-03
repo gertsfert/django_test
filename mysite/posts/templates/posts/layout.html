@@ -1,4 +1,6 @@
 {% load static %}
+{% load posts_extras %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +18,19 @@
 
     <!-- Dropdown Structure -->
     {% if user.is_authenticated %}
-    <ul id="dropdown1" class="dropdown-content active">
-        <li><a href="{% url 'post_new' %}" class='purple-text lighten-1'>
-            <i class="material-icons">add</i>New Post</a></li>
-        <li><a href="{% url 'post_draft_list' %}" class='purple-text lighten-1'>
-            <i class="material-icons">drafts</i>Review Drafts</a></li>
-        <li><a href="/admin" class='purple-text lighten-1'>
+        <ul id="dropdown1" class="dropdown-content active">
+            <li><a href="{% url 'post_new' %}" class='purple-text lighten-1'>
+                <i class="material-icons">add</i>New Post</a></li>
+            <li><a href="{% url 'post_draft_list' %}" class='purple-text lighten-1'>
+                <i class="material-icons">drafts</i>Review Drafts<span class="badge">{% num_drafts %}</span></a></li>
+            <li><a href="/admin" class='purple-text lighten-1'>
                 <i class="material-icons">lock</i>Admin</a></li>
-    </ul>
+        </ul>
     {% endif %}
 
     <nav>
         <div class="nav-wrapper purple lighten-1">
-        <a href="/posts" class="brand-logo" style="padding-left:12px">  Posts</a>
+        <a href="/posts" class="brand-logo" style="padding-left:12px">Posts</a>
         <ul class="right">
 
             <!-- Dropdown Trigger -->
