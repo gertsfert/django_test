@@ -9,6 +9,8 @@ def index(request):
     
     posts = Post.objects.all()[:10]
 
+    posts = Post.objects.filter(published_at__lte=timezone.now()).order_by('published_at')
+
     context = {
         'title': 'Latest Entries',
         'posts': posts
