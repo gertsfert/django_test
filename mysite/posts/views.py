@@ -76,3 +76,7 @@ def post_draft_list(request):
 
     return render(request, 'posts/index.html', context)
 
+def post_publish(request, id):
+    post = get_object_or_404(Post, id=id)
+    post.publish()
+    return redirect('details', id=post.id)

@@ -7,16 +7,32 @@
         {{post.body}}
     </div>
     <div class="card-action">
-        {{post.created_at}}
+        <div class="row">
+                <div class="col"><strong>Created </strong>{{post.created_at}}</div>
+                {% if post.published_at %}
+                    <div class="col"><strong>Published </strong>{{post.published_at}}</div>
+                {% endif %}
+        </div>
     </div>
 </div>
 
 {% if user.is_authenticated %}
-<div class='right-align'>
-        <a class="waves-effect waves-light btn-small" href="{% url 'post_edit' id=post.id %}">
-            <i class="material-icons left">create</i>Edit Post
-        </a>
-</div>
+    <div class='row'>
+        <div class='col'>
+                <a class="waves-effect waves-light btn-small" 
+                    href="{% url 'post_edit' id=post.id %}">
+                    <i class="material-icons left">create</i>Edit Post
+                </a>
+        </div>
+        {% if not post.published_at %}
+            <div class="col">
+                <a class="waves-effect waves-light btn-small"
+                    href="{% url 'post_publish' id=post.id %}">
+                    <i class="material-icons left">publish</i>Publish
+                </a>
+            </div>
+        {% endif %}
+    </div>
 {% endif %}
 
 <h6>Comments</h6>

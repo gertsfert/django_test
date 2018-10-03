@@ -15,6 +15,10 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def publish(self):
+        self.published_at = timezone.now()
+        self.save()
+
 class Comment(models.Model):
     post = models.ForeignKey('posts.Post', on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=200)
