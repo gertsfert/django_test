@@ -1,9 +1,9 @@
 ---Current---
-add logout button in user menu (redirect to index.html)
+BUG: Deleting posts returns a 404!!
 
 ----BUGS!----
 Posts:
-  - Deleting posts returns a 404!!
+
 
 ----Ideas----
 Posts:
