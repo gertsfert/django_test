@@ -1,9 +1,7 @@
 {% extends 'posts/layout.html' %}
 
 {% block content %}
-    {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
-    {% endif %}
+    
 
     <form method="post" action="{% url 'login' %}">{% csrf_token %}
         <table>
@@ -16,11 +14,28 @@
                 <td>{{ form.password }}</td>
             </tr>
         </table>
-
+        <br>
         <!-- <input type="submit" value="login" /> -->
         
-        <button class="btn waves-effect waves-light" type="submit" name="action">Login</button>
+        <div class="row">
+            {% if form.errors %}
+            <!-- bottom pane - with errors -->
+            <div class="col s4 offset-s6 red-text lighten-1">
+                Your username and password didn't match. Please try again.
+            </div>
 
+            <div class="col s2">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Login</button>
+            </div>
+
+            {% else %}
+            <!-- bottom pane - no errors-->
+            <div class="col s2 offset-s10">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Login</button>
+            </div>
+
+            {% endif %}
+        </div>
         <input type="hidden" name="next" value="{{ next }}" />
     </form>
 {% endblock %}
