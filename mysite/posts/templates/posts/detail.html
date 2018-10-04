@@ -56,6 +56,12 @@
 </ul>
 
 
+{% if post.published_at %}
+    <!-- if published, go back to main site -->
+    <a class='btn-small waves-effect waves-light' href="/posts">Go Back</a>
+{% else %}
+    <!-- if not published, go to drafts view-->
+    <a class='btn-small waves-effect waves-light' href="/drafts">Go Back</a>
+{% endif %}
 
-<a class='btn-small waves-effect waves-light' href="/posts">Go Back</a>
 {% endblock %}
