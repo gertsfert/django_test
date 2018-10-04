@@ -1,11 +1,16 @@
 ---Current---
-Posts: Change admin logon link to just "login" (go to login page)
+add logout button in user menu
 
 ----Ideas----
 Posts:
-    - Add pagination:
-        - will need script to auto create posts first to populate content
-    - Add toasts!
-        - events like a post_publish or post_delete should have toasts
-    - add blog text preview in index
+  - Add pagination:
+    - will need script to auto create posts first to populate content
+  - Add toasts!
+    - events like a post_publish or post_delete should have toasts
+    - logging in/out
+  - add blog text preview in index
+  - comment improvements
+    - improve display (make pretty)
+    - ability to make comments (obv)
+    - upvote/downvote? 
 
