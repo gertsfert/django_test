@@ -127,3 +127,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "css"),
     os.path.join(BASE_DIR, "js"),
 ]
+
+LOGIN_REDIRECT_URL = '/'

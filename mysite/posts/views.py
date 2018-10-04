@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Post
 from .forms import PostForm
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -25,6 +26,7 @@ def details(request, id):
 
     return render(request, 'posts/detail.html', context)
 
+@login_required
 def post_new(request):
 
     if request.method == "POST":
@@ -47,6 +49,7 @@ def post_new(request):
 
         return render(request, 'posts/edit.html', context)
 
+@login_required
 def post_edit(request, id):
     post = get_object_or_404(Post, id=id)
 
@@ -66,6 +69,7 @@ def post_edit(request, id):
     }
     return render(request, 'posts/edit.html', context)
 
+@login_required
 def post_draft_list(request):
     posts = Post.objects.filter(published_at__isnull=True).order_by('created_at')
 
@@ -76,11 +80,13 @@ def post_draft_list(request):
 
     return render(request, 'posts/index.html', context)
 
+@login_required
 def post_publish(request, id):
     post = get_object_or_404(Post, id=id)
     post.publish()
     return redirect('details', id=post.id)
 
+@login_required
 def post_remove(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
