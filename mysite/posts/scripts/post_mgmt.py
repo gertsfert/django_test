@@ -6,7 +6,7 @@ def create_copies(copies: int, title='dummy', body='auto gen from script', publi
         t = title + "_" + str(n)
 
 
-        print('Copy[{}];\n\t \
+        print('Copy[{}];\t \
             title[{}];\n\t \
             body[{}];\n\t'.format(n, t, body))
         p = Post(title=t, body=body)
