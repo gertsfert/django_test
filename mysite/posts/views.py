@@ -90,4 +90,4 @@ def post_publish(request, id):
 def post_remove(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
-    return redirect('post_list')
+    return redirect('index')
