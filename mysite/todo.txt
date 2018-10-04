@@ -17,4 +17,5 @@ Posts:
     - improve display (make pretty)
     - ability to make comments (obv)
     - upvote/downvote! 
-
+  - detail "go back" button
+    - currently dependant on the "current" state of the post (whether it is published or not), actually should be dependant on the state of the post when the post was fetched! Should likely handle this in the call to the post detail page (argument will need to be forwarded to the redirect?)
