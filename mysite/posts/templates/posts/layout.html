@@ -25,6 +25,7 @@
                 <i class="material-icons">drafts</i>Review Drafts<span class="badge">{% num_drafts %}</span></a></li>
             <li><a href="/admin" class='purple-text lighten-1'>
                 <i class="material-icons">lock</i>Admin</a></li>
+            <li><a href="{% url 'logout' %}" class="purple-text lighten-1">Logout</a></li>
         </ul>
     {% endif %}
 

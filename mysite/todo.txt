@@ -1,5 +1,9 @@
 ---Current---
-add logout button in user menu
+add logout button in user menu (redirect to index.html)
+
+----BUGS!----
+Posts:
+  - Deleting posts returns a 404!!
 
 ----Ideas----
 Posts:
@@ -12,5 +16,5 @@ Posts:
   - comment improvements
     - improve display (make pretty)
     - ability to make comments (obv)
-    - upvote/downvote? 
+    - upvote/downvote! 
 
