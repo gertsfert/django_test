@@ -1,0 +1,9 @@
+{% extends 'posts/layout.html' %}
+
+{% block content%}
+    <h4 class='center-align purple-text lighten-1'> New Comment </h4>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="waves-effect waves-light btn-small">Send</button>
+    </form>
+{% endblock %}

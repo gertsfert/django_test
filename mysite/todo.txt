@@ -1,5 +1,5 @@
 ---Current---
-Viewing a "draft" post, the "go back" button should go back to the list of drafts.
+comment handling
 
 ----BUGS!----
 Posts:

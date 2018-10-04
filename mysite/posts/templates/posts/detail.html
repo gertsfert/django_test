@@ -41,7 +41,14 @@
     </div>
 {% endif %}
 
-<h6>Comments</h6>
+<div class="row">
+    <div class="col"><h6>Comments</h6></div>
+    <div class="col">
+        <a class="btn-flat waves-effect waves-light"
+            href="{% url 'add_comment_to_post' id=post.id %}">
+            Add Comment</a>
+    </div>
+</div>
 <ul class='collection'>
     {% for comment in post.comments.all %}
         <li class="collection-item">
