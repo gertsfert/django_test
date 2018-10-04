@@ -1,5 +1,5 @@
 ---Current---
-BUG: Deleting posts returns a 404!!
+Viewing a "draft" post, the "go back" button should go back to the list of drafts.
 
 ----BUGS!----
 Posts:
