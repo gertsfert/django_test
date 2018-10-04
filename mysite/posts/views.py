@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Post
+from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -104,3 +104,15 @@ def add_comment_to_post(request, id):
     else:
         form = CommentForm()
     return render(request, 'posts/add_comment_to_post.html', {'form': form})
+
+@login_required
+def comment_approve(request, id):
+    comment = get_object_or_404(Comment, id=id)
+    comment.approve()
+    return redirect('details', id=comment.post.id)
+
+@login_required
+def comment_remove(request, id):
+    comment = get_object_or_404(Comment, id=id)
+    comment.delete()
+    return redirect('details', id=comment.post.id)

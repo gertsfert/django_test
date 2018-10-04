@@ -32,6 +32,7 @@ class Comment(models.Model):
 
     def approve(self):
         self.approved_comment = True
+        self.approved_at = timezone.now()
         self.save()
     
     def __str__(self):
