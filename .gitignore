@@ -8,5 +8,8 @@ materialize/
 mysite/__pycache__/
 
 
-# ignoring .pyc
+# ignoring filetypes
 *.pyc
+*.swp
+*.swn
+*.swo
