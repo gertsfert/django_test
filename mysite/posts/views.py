@@ -4,15 +4,23 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 # Create your views here.
 def index(request):
+    post_list = Post.objects.filter(published_at__lte=timezone.now()).order_by('published_at')
+    paginator = Paginator(post_list, 10)
 
-    posts = Post.objects.filter(published_at__lte=timezone.now()).order_by('published_at')
+    try:
+        page = request.GET.get('page')
+    except AttributeError:
+        page = 1
+    
+    posts = paginator.get_page(page)
 
     context = {
         'title': 'Latest Entries',
-        'posts': posts
+        'posts': posts,
     }
 
     return render(request, 'posts/index.html', context)
@@ -71,7 +79,14 @@ def post_edit(request, id):
 
 @login_required
 def post_draft_list(request):
-    posts = Post.objects.filter(published_at__isnull=True).order_by('created_at')
+    post_list = Post.objects.filter(published_at__isnull=True).order_by('created_at')
+    paginator = Paginator(post_list, 10)
+
+    try:
+        page = request.GET.page('page')
+    except AttributeError:
+        page = 1
+    posts = paginator.get_page(page)
 
     context = {
         'posts': posts,

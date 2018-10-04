@@ -11,5 +11,33 @@
         {% endfor %}
 
     </ul>
+
+    <!-- PAGINATION -->
+    <ul class="pagination center-align">
+        {% if posts.has_previous %}
+            <li class="waves-effect waves-light"><a href="?page=1"><i class="material-icons">chevron_left</i></a></li>
+        {% else %}
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        {% endif %}
+    
+        {% for p_num in posts.paginator.page_range %}
+            {% if p_num == posts.number %}
+                <li class="active purple lighten-1"><a href="#!">{{ p_num }}</a></li>
+            {% else %}
+                <li class="waves-effect"><a href="?page={{ p_num }}">{{p_num}}</a></li>
+            {% endif %}
+        {% endfor %}
+    
+        {% if posts.has_next %}
+            <li class="waves-effect waves-light"><a href="?page={{ posts.paginator.num_pages }}">
+                <i class="material-icons">chevron_right</i>
+            </a></li>
+        {% else %}
+            <li class="disabled"><a href="#!">
+                <i class="material-icons">chevron_right</i>
+            </a></li>
+        {% endif %}
+    </ul> 
+    
 {% endblock %}
 
