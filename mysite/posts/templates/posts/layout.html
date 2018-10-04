@@ -38,7 +38,7 @@
                 <li><a class="dropdown-trigger active" href="#!" data-target="dropdown1">{{ user.username }}
                     <i class="material-icons right">menu</i></a></li>
                 {% else %}
-                <li><a href="/admin">Admin Login
+                <li><a href="{% url 'login' %}">Login
                         <i class="material-icons right">lock</i></a></li>
             {% endif %}
 
