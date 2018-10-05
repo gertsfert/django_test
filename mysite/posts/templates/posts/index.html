@@ -3,6 +3,26 @@
 {% block content %}
     <h4 class='center-align purple-text lighten-1'> {{title}} </h4>
 
+    <!-- NEW METHOD -->
+    {% for post in posts %}
+    <div class="row" style="margin: 2px">
+        <div class="col s12 m10 offset-m1">
+            <a href="/posts/details/{{post.id}}">
+                <div class="card transparent hoverable" style="padding: 0px; margin: 2px">
+                    <div class="card-content purple-text lighten-1">
+                        <span class="card-title">{{post.title}}</span>
+                        <p class="truncate" style="color: grey">{{post.body}}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <h6 class="center-align">No posts yet!</h6>
+    {% endfor %}
+
+
+    <!-- OLD METHOD -->
     <ul class='collection'>
         {% for post in posts %}
             <li class="collection-item"> <a href = "/posts/details/{{post.id}} "> {{post.title}} </a> </li>
@@ -11,6 +31,7 @@
         {% endfor %}
 
     </ul>
+
 
     <!-- PAGINATION -->
     <ul class="pagination center-align">
