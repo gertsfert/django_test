@@ -1,14 +1,13 @@
 ---Current---
-  - pagination for post index
+  - Add toasts!
+    - events like a post_publish or post_delete should have toasts
+    - logging in/out
 ----BUGS!----
 Posts:
 
 
 ----Ideas----
 Posts:
-  - Add toasts!
-    - events like a post_publish or post_delete should have toasts
-    - logging in/out
   - add blog text preview in index
   - comment improvements
     - improve display (make pretty)
