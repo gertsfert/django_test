@@ -1,16 +1,13 @@
 ---Current---
-  - blog text preview in index
-
-----BUGS!----
-Posts:
+add toast when logging in/out
 
 
+this is a line
 ----Ideas----
 Posts:
-  - comment improvements
-    - improve display (make pretty)
-    - upvote/downvote! 
-  - toast for log out action
-  - UNIT TESTING  
+    - Add pagination:
+        - will need script to auto create posts first to populate content
+    - Add toasts!
 
+    - add blog text preview in index
 
