@@ -5,6 +5,7 @@ from .forms import PostForm, CommentForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -44,8 +45,9 @@ def post_new(request):
             post = form.save(commit=False)
             post.author = request.user
             post.created_at = timezone.now()
+            post.updated_at = timezone.now()
             post.save()
-
+            messages.add_message(request, messages.SUCCESS, 'Saved "{}"'.format(post.title))
             return redirect('details', id=post.id)
 
     else:
@@ -66,8 +68,9 @@ def post_edit(request, id):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.created_at = timezone.now()
+            post.updated_at = timezone.now()
             post.save()
+            messages.add_message(request, messages.INFO, 'Edited "{}"'.format(post.title))
             return redirect('details', id=post.id)
     else:
         form = PostForm(instance=post)
@@ -99,12 +102,15 @@ def post_draft_list(request):
 def post_publish(request, id):
     post = get_object_or_404(Post, id=id)
     post.publish()
-    return redirect('details', id=post.id)
+    messages.add_message(request, messages.SUCCESS, 'Published "{}"'.format(post.title))
+    return redirect('index')
 
 @login_required
 def post_remove(request, id):
     post = get_object_or_404(Post, id=id)
+    post_title = post.title
     post.delete()
+    messages.add_message(request, messages.WARNING, 'Deleted "{}"'.format(post_title))
     return redirect('index')
 
 def add_comment_to_post(request, id):

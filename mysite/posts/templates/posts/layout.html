@@ -13,7 +13,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Django-Test (Posts)</title>
 </head>
-<body>
+<body>  
+
+    
+    
+
     <!-- Drop down NAVBAR -->
 
     <!-- Dropdown Structure -->
@@ -69,6 +73,26 @@
             var instances = M.Dropdown.init(elems, options);
             });  
     </script>
-</body>
+    
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                var c = 'black white-text'
+                {% if message.tags == 'success' %}
+                    var c = 'green'
+                {% endif %}
+                {% if message.tags == 'info' %}
+                    var c = 'blue lighten-4 black-text'
+                {% endif %}
+                {% if message.tags == 'warning' %}
+                    var c = 'orange darken-3 white-text'
+                {% endif %}
+                {% if message.tags == 'error' %}
+                    var c = 'red darken-1 white-text'
+                {% endif %}
+                M.toast({html: '{{ message }}', classes: c})
+            {% endfor %}
+        </script>
+    {% endif %}
 </body>
 </html>
