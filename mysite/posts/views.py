@@ -9,7 +9,7 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    post_list = Post.objects.filter(published_at__lte=timezone.now()).order_by('published_at')
+    post_list = Post.objects.filter(published_at__lte=timezone.now()).order_by('-published_at')
     paginator = Paginator(post_list, 10)
 
     try:
@@ -82,7 +82,7 @@ def post_edit(request, id):
 
 @login_required
 def post_draft_list(request):
-    post_list = Post.objects.filter(published_at__isnull=True).order_by('created_at')
+    post_list = Post.objects.filter(published_at__isnull=True).order_by('-created_at')
     paginator = Paginator(post_list, 10)
 
     try:
