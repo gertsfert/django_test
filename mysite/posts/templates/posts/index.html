@@ -22,17 +22,6 @@
     {% endfor %}
 
 
-    <!-- OLD METHOD -->
-    <ul class='collection'>
-        {% for post in posts %}
-            <li class="collection-item"> <a href = "/posts/details/{{post.id}} "> {{post.title}} </a> </li>
-        {% empty %}
-            <h6 class='center-align'>No posts yet!</h6>
-        {% endfor %}
-
-    </ul>
-
-
     <!-- PAGINATION -->
     <ul class="pagination center-align">
         {% if posts.has_previous %}
