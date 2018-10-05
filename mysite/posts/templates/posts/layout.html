@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="{% static "materialize.css" %}"  media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,14 +11,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Django-Test (Posts)</title>
+
+    <style>
+        @media screen and (max-width: 479px) {
+            #menu_small { display:inherit;}
+            #menu_large { display:none;}
+        }
+        @media screen and (min-width: 479px) {
+            #menu_small { display:none;}
+            #menu_large { display:inherit;}
+        }
+    </style>
 </head>
 <body>  
-
-    
-    
-
     <!-- Drop down NAVBAR -->
-
     <!-- Dropdown Structure -->
     {% if user.is_authenticated %}
         <ul id="dropdown1" class="dropdown-content active">
@@ -37,19 +42,21 @@
 
     <nav>
         <div class="nav-wrapper purple lighten-1">
-        <a href="/posts" class="brand-logo" style="padding-left:12px">Posts</a>
-        <ul class="right">
+            <a href="/posts" class="brand-logo" style="padding-left:12px">Posts</a>
 
-            <!-- Dropdown Trigger -->
-            {% if user.is_authenticated %}
-                <li><a class="dropdown-trigger active" href="#!" data-target="dropdown1">{{ user.username }}
-                    <i class="material-icons right">menu</i></a></li>
+            <ul class="right">
+                <!-- Dropdown Trigger -->
+                {% if user.is_authenticated %}
+                    <li id="menu_small"><a class="dropdown-trigger active" href="#!" data-target="dropdown1">
+                        <i class="material-icons right" id="menu_button">menu</i></a></li>
+                    <li id="menu_large"><a class="dropdown-trigger active" href="#!" data-target="dropdown1">
+                            {{ user.username }}
+                            <i class="material-icons right" id="menu_button">menu</i></a></li>
                 {% else %}
-                <li><a href="{% url 'login' %}">Login
-                        <i class="material-icons right">lock</i></a></li>
-            {% endif %}
-
-        </ul>
+                    <li><a href="{% url 'login' %}">Login
+                            <i class="material-icons right">lock</i></a></li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
 
