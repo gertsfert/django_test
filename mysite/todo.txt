@@ -1,15 +1,14 @@
 ---Current---
-
+  - ajax "Like" button on comments
 
 ---- BUGS ----
  - get an error when submitting a body with single space!
 
 ----Ideas----
 Posts:
-    - Add pagination:
-        - will need script to auto create posts first to populate content
-    - Add toasts!
-	- when logging in out
-    - add blog text preview in index
-    - endless scrolling
+  - toasts when logging out 
+  - add blog text preview in index
+  - endless scrolling
+  - create user page
+  - comments author tied to users (currently text field)
 
