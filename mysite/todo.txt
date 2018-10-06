@@ -1,5 +1,4 @@
 ---Current---
-  - ajax "Like" button on comments
 
 ---- BUGS ----
  - get an error when submitting a body with single space!
@@ -12,3 +11,5 @@ Posts:
   - create user page
   - comments author tied to users (currently text field)
   - comment approval format fix
+  - comment "like" formatting fix
+  - add new comment form using AJAX
