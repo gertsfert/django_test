@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils import timezone
+from mysite import settings
 
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=200)
     body = models.TextField()
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, default=1)
     # need to pass function, so default value is not static!
     created_at = models.DateTimeField(default=timezone.now, blank=True)
     published_at = models.DateTimeField(blank=True, null=True)
@@ -23,7 +25,7 @@ class Comment(models.Model):
     post = models.ForeignKey('posts.Post', on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=200)
     body = models.TextField()
-    
+
     created_at = models.DateTimeField(default=timezone.now)
     approved_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(default=timezone.now)
