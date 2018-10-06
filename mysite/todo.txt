@@ -11,4 +11,4 @@ Posts:
   - endless scrolling
   - create user page
   - comments author tied to users (currently text field)
-
+  - comment approval format fix

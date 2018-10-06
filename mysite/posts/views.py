@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
+import json
 
 # Create your views here.
 def index(request):
@@ -137,3 +138,32 @@ def comment_remove(request, id):
     comment = get_object_or_404(Comment, id=id)
     comment.delete()
     return redirect('details', id=comment.post.id)
+
+@login_required
+def comment_like(request, id):
+    comment = get_object_or_404(Comment, id=id)
+    user_id = request.user.id
+
+    # get count of likes
+    
+    num_likes = Comment.objects.filter(likes__id=user_id).filter(id=id).count()
+
+    if num_likes == 0:
+        # not liked - want to add like
+        comment.likes.add(request.user)
+        action = 'ADD_LIKE'
+    elif num_likes == 1:
+        # liked - delete like
+        comment.likes.remove(request.user)
+        action = 'DEL_LIKE'
+    else:
+        raise LookupError('INVALID_NUM_LIKES comment_id={}; user_id={}'.format(id, user_id))
+        action = 'INVALID_NUM_LIKES'
+
+    response = json.dumps({
+        'action': action,
+        'comment_id': id
+    })
+
+
+    return HttpResponse(response)
