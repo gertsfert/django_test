@@ -1,151 +1,182 @@
 {% extends 'posts/layout.html' %}
 
 {% block javascript %}
-<script>
-    // create event listener for each button
-    let comment_like_buttons = document.getElementsByClassName("btn-comment-like");
-    
-    for (var i=0; i<comment_like_buttons.length; i++) {
-        comment_like_buttons[i].addEventListener("click", likeButtonPressed);
-    }
-
-    function likeButtonPressed() {
-        comment_id = this.getAttribute('data-commentid');
-
-        likeButton = this;
-        url = "../../../comment/" + comment_id + "/like/"
-        // create XHR Object
+    <script>
+        // AJAX LIKE
+        // create event listener for each button
+        let comment_like_buttons = document.getElementsByClassName("btn-comment-like");
         
-        let xhr = new XMLHttpRequest();
-        // OPEN - type, url/filename, async
-        xhr.open('GET', url, true);
+        for (var i=0; i<comment_like_buttons.length; i++) {
+            comment_like_buttons[i].addEventListener("click", likeButtonPressed);
+        }
 
-        xhr.onload = function(){
-            if (this.status == 200) {
-                let responseJSON = JSON.parse(this.response);
-                likeCounter = document.querySelector("div.like_counter[data-commentid='" + comment_id + "']");
-                currentCount = parseInt(likeCounter.innerText);
-                if (responseJSON.action == "DEL_LIKE") {
-                    likeButton.setAttribute('class',likeButton.className.replace('lighten-1','lighten-4'));
-                    newCount = currentCount -= 1;
-                } else if (responseJSON.action == "ADD_LIKE") {
-                    likeButton.setAttribute('class',likeButton.className.replace('lighten-4','lighten-1'));
-                    newCount = currentCount += 1;
+        function likeButtonPressed() {
+            comment_id = this.getAttribute('data-commentid');
+
+            likeButton = this;
+            url = "../../../comment/" + comment_id + "/like/"
+            // create XHR Object
+            
+            let xhr = new XMLHttpRequest();
+            // OPEN - type, url/filename, async
+            xhr.open('GET', url, true);
+
+            xhr.onload = function(){
+                if (this.status == 200) {
+                    let responseJSON = JSON.parse(this.response);
+                    likeCounter = document.querySelector("div.like_counter[data-commentid='" + comment_id + "']");
+                    currentCount = parseInt(likeCounter.innerText);
+                    if (responseJSON.action == "DEL_LIKE") {
+                        likeButton.setAttribute('class',likeButton.className.replace('lighten-1','lighten-4'));
+                        newCount = currentCount -= 1;
+                    } else if (responseJSON.action == "ADD_LIKE") {
+                        likeButton.setAttribute('class',likeButton.className.replace('lighten-4','lighten-1'));
+                        newCount = currentCount += 1;
+                    }
+                    likeCounter.innerText = newCount;
                 }
-                likeCounter.innerText = newCount;
+            }
+            // sends request
+            xhr.send();
+        }
+    </script>
+    <script>
+        // AJAX COMMENT FORM
+        let createCommentBtn = document.getElementById('ajax_comment');
+        let form_shown = false;
+        createCommentBtn.addEventListener("click", createCommentBtnPressed);
+        
+        function createCommentBtnPressed() {
+            console.log('createCommentBtnPressed!');
+            form_shown = !form_shown;
+            if (form_shown) {
+                let link = document.querySelector('head link[rel="import"]');
+    
+                // clone the template in the import
+                let template = link.import.querySelector('template');
+                let clone = document.importNode(template.content, true);
+    
+                document.querySelector('#ajax_comment_container').appendChild(clone);
+            } else {
+                // delete form
+                document.querySelector('#comment_ajax_template').remove();
             }
         }
-        // sends request
-        xhr.send();
-    }
-</script>
+    </script>
+{% endblock %}
 
+{% block head %}
+    <link rel="import" href="{% url 'add_comment_to_post' id=post.id %}">
 {% endblock %}
 
 {% block content %}
-<h4 class='center-align purple-text lighten-1'> {{post.title}} </h4>
-<div class='card'>
-    <div class='card-content'>
-        {{post.body}}
-    </div>
-    <div class="card-action">
-        <div class="row">
-                <div class="col"><strong>Created </strong>{{post.created_at}}</div>
-                {% if post.published_at %}
-                    <div class="col"><strong>Published </strong>{{post.published_at}}</div>
-                {% endif %}
+    <h4 class='center-align purple-text lighten-1'> {{post.title}} </h4>
+    <div class='card'>
+        <div class='card-content'>
+            {{post.body}}
+        </div>
+        <div class="card-action">
+            <div class="row">
+                    <div class="col"><strong>Created </strong>{{post.created_at}}</div>
+                    {% if post.published_at %}
+                        <div class="col"><strong>Published </strong>{{post.published_at}}</div>
+                    {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
-{% if user.is_authenticated %}
-    <div class='row'>
-        <div class='col'>
-                <a class="waves-effect waves-light btn-small" 
-                    href="{% url 'post_edit' id=post.id %}">
-                    <i class="material-icons left">create</i>Edit Post
-                </a>
-        </div>
-        {% if not post.published_at %}
-            <div class="col">
+    {% if user.is_authenticated %}
+        <div class='row'>
+            <div class='col'>
+                    <a class="waves-effect waves-light btn-small" 
+                        href="{% url 'post_edit' id=post.id %}">
+                        <i class="material-icons left">create</i>Edit Post
+                    </a>
+            </div>
+            {% if not post.published_at %}
+                <div class="col">
+                    <a class="waves-effect waves-light btn-small"
+                        href="{% url 'post_publish' id=post.id %}">
+                        <i class="material-icons left">publish</i>Publish
+                    </a>
+                </div>
+            {% endif %}
+            <div class='col'>
                 <a class="waves-effect waves-light btn-small"
-                    href="{% url 'post_publish' id=post.id %}">
-                    <i class="material-icons left">publish</i>Publish
+                    href="{% url 'post_remove' id=post.id %}">
+                    <i class="material-icons left">delete</i>Delete Post
                 </a>
             </div>
-        {% endif %}
-        <div class='col'>
-            <a class="waves-effect waves-light btn-small"
-                href="{% url 'post_remove' id=post.id %}">
-                <i class="material-icons left">delete</i>Delete Post
-            </a>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col"><h6>Comments</h6></div>
+        <div class="col">
+            <a class="btn-flat waves-effect waves-light"
+                href="{% url 'add_comment_to_post' id=post.id %}">
+                Add Comment</a>
         </div>
     </div>
-{% endif %}
-
-<div class="row">
-    <div class="col"><h6>Comments</h6></div>
-    <div class="col">
-        <a class="btn-flat waves-effect waves-light"
-            href="{% url 'add_comment_to_post' id=post.id %}">
-            Add Comment</a>
-    </div>
-</div>
-<ul class='collection'>
-    {% for comment in post.comments.all %}
-        {% if user.is_authenticated or comment.approved_comment %}
-            <li class="collection-item">
-                <div class="row">
-                    <div class="col s1 m1 btn-flat purple-text like_counter" 
-                        data-commentid="{{comment.id}}">{{ comment.likes.count }}</div>
-                    <div class="col s2">
-                        <strong>{{ comment.author }}</strong> 
-                    </div>
-                    <div class="col s3">
-                        <span class="title">{{ comment.created_at }}</span>                        
-                    </div>
-                    <!-- Like button -->
-                    <a href="#!" id="likes-{{forloop.counter0}}" 
-                        data-commentid="{{comment.id}}" 
-                        {% if user in comment.likes.all %}
-                        class="btn secondary-content purple lighten-1 btn-comment-like"
-                        {% else %}
-                        class="btn secondary-content purple lighten-4 btn-comment-like"
-                        {% endif %}
-                        >
-                        <i class="material-icons">thumb_up</i> 
+    <ul class='collection'>
+        {% for comment in post.comments.all %}
+            {% if user.is_authenticated or comment.approved_comment %}
+                <li class="collection-item">
+                    <div class="row">
+                        <div class="col s1 m1 btn-flat purple-text like_counter" 
+                            data-commentid="{{comment.id}}">{{ comment.likes.count }}</div>
+                        <div class="col s2">
+                            <strong>{{ comment.author }}</strong> 
+                        </div>
+                        <div class="col s3">
+                            <span class="title">{{ comment.created_at }}</span>                        
+                        </div>
+                        <!-- Like button -->
+                        <a href="#!" id="likes-{{forloop.counter0}}" 
+                            data-commentid="{{comment.id}}" 
+                            {% if user in comment.likes.all %}
+                            class="btn secondary-content purple lighten-1 btn-comment-like"
+                            {% else %}
+                            class="btn secondary-content purple lighten-4 btn-comment-like"
+                            {% endif %}
+                            >
+                            <i class="material-icons">thumb_up</i> 
+                            
+                        </a>
                         
-                    </a>
-                    
 
-                    {% if not comment.approved_comment %}
-                    <div class="col s1 offset-s4">
-                        <a class="waves-effect waves-light btn-small red" 
-                            href="{% url 'comment_remove' id=comment.id %}">
-                            <i class="material-icons">clear</i></a>
+                        {% if not comment.approved_comment %}
+                        <div class="col s1 offset-s4">
+                            <a class="waves-effect waves-light btn-small red" 
+                                href="{% url 'comment_remove' id=comment.id %}">
+                                <i class="material-icons">clear</i></a>
+                        </div>
+                        <div class="col s1">
+                            <a class="waves-effect waves-light btn-small green" 
+                                href="{% url 'comment_approve' id=comment.id %}">
+                                <i class="material-icons">done</i></a>
+                        </div>
+                        {% endif %}
                     </div>
-                    <div class="col s1">
-                        <a class="waves-effect waves-light btn-small green" 
-                            href="{% url 'comment_approve' id=comment.id %}">
-                            <i class="material-icons">done</i></a>
-                    </div>
-                    {% endif %}
-                </div>
-                <p>{{ comment.body }}</p>
-            </li>
-        {% endif %}
-    {% empty %}
-        <p>No comments here yet.</p>
-    {% endfor %}
-</ul>
+                    <p>{{ comment.body }}</p>
+                </li>
+            {% endif %}
+        {% empty %}
+            <p>No comments here yet.</p>
+        {% endfor %}
+    </ul>
 
-{% if post.published_at %}
-    <!-- if published, go back to main site -->
-    <a class='btn-small waves-effect waves-light' href="/posts">Go Back</a>
-{% else %}
-    <!-- if not published, go to drafts view-->
-    <a class='btn-small waves-effect waves-light' href="/drafts">Go Back</a>
-{% endif %}
+    <button id="ajax_comment">AJAX COMMENT</button>
+
+    <div id = "ajax_comment_container"></div>
+
+    {% if post.published_at %}
+        <!-- if published, go back to main site -->
+        <a class='btn-small waves-effect waves-light' href="/posts">Go Back</a>
+    {% else %}
+        <!-- if not published, go to drafts view-->
+        <a class='btn-small waves-effect waves-light' href="/drafts">Go Back</a>
+    {% endif %}
 
 
 {% endblock %}

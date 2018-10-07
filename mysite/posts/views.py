@@ -122,10 +122,15 @@ def add_comment_to_post(request, id):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-            return redirect('details', id=post.id)
+            return HttpResponse('comment posted')
+        else:
+            return HttpResponse('invalid form post!')
     else:
-        form = CommentForm()
-    return render(request, 'posts/add_comment_to_post.html', {'form': form})
+        context = {
+            'form': CommentForm(),
+            'post_id': post.id
+        }
+    return render(request, 'posts/add_comment_to_post.html', context)
 
 @login_required
 def comment_approve(request, id):
