@@ -6,7 +6,15 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('title', 'body')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['body'].widget.attrs.update({'class': 'materialize-textarea'})
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('author', 'body')
+        fields = ('author','body',)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['body'].widget.attrs.update({'class': 'materialize-textarea'})
