@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.utils import timezone
@@ -160,10 +160,10 @@ def comment_like(request, id):
         raise LookupError('INVALID_NUM_LIKES comment_id={}; user_id={}'.format(id, user_id))
         action = 'INVALID_NUM_LIKES'
 
-    response = json.dumps({
+    response = {
         'action': action,
         'comment_id': id
-    })
+    }
 
 
-    return HttpResponse(response)
+    return JsonResponse(response)
