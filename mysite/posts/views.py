@@ -124,7 +124,8 @@ def add_comment_to_post(request, id):
             comment.save()
             return JsonResponse({
                 'author': comment.author,
-                'body': comment.body
+                'body': comment.body,
+                'comment_id': comment.id,
             })
     else:
         context = {
@@ -132,6 +133,13 @@ def add_comment_to_post(request, id):
             'post_id': post.id
         }
         return render(request, 'posts/add_comment_to_post.html', context)
+
+def comment_display(request, id):
+    comment = get_object_or_404(Comment, id=id)
+    context = {
+        'comment': comment,
+    }
+    return render(request, 'posts/comment_card.html', context)
 
 @login_required
 def comment_approve(request, id):

@@ -94,11 +94,36 @@
                     console.log(responseJSON);
 
                     hideCommentForm();
+                    form_shown = false;
+                    renderNewComment(responseJSON.comment_id);
                 }
-            }
+            };
             
             xhr.send(formData);
         }
+
+        function renderNewComment(comment_id) {
+            // create new template tag from url
+            let template = document.createElement('template');
+
+            let xhrGetCommentHTML = new XMLHttpRequest();
+            let url = "../../../posts/comment/" + comment_id + "/"
+            let commentHTML = null;
+            xhrGetCommentHTML.open("GET", url, true);
+            
+            xhrGetCommentHTML.onload = function(){
+                if (this.status == 200) {
+                    commentHTML = this.response.trim();
+                    template.innerHTML = commentHTML;
+                    let clone = document.importNode(template.content, true);
+                    document.querySelector('#comment-collection').appendChild(clone);
+                }
+            };
+
+            xhrGetCommentHTML.send();
+
+        }
+
     </script>
 {% endblock %}
 
@@ -151,61 +176,22 @@
         <div class="col"><h6>Comments</h6></div>
         <div class="col">
             <a class="btn-flat waves-effect waves-light"
-                href="{% url 'add_comment_to_post' id=post.id %}">
+                id="ajax_comment">
                 Add Comment</a>
         </div>
     </div>
-    <ul class='collection'>
+    <div id = "ajax_comment_container"></div>
+    <ul class='collection' id="comment-collection">
         {% for comment in post.comments.all %}
             {% if user.is_authenticated or comment.approved_comment %}
-                <li class="collection-item">
-                    <div class="row">
-                        <div class="col s1 m1 btn-flat purple-text like_counter" 
-                            data-commentid="{{comment.id}}">{{ comment.likes.count }}</div>
-                        <div class="col s2">
-                            <strong>{{ comment.author }}</strong> 
-                        </div>
-                        <div class="col s3">
-                            <span class="title">{{ comment.created_at }}</span>                        
-                        </div>
-                        <!-- Like button -->
-                        <a href="#!" id="likes-{{forloop.counter0}}" 
-                            data-commentid="{{comment.id}}" 
-                            {% if user in comment.likes.all %}
-                            class="btn secondary-content purple lighten-1 btn-comment-like"
-                            {% else %}
-                            class="btn secondary-content purple lighten-4 btn-comment-like"
-                            {% endif %}
-                            >
-                            <i class="material-icons">thumb_up</i> 
-                            
-                        </a>
-                        
-
-                        {% if not comment.approved_comment %}
-                        <div class="col s1 offset-s4">
-                            <a class="waves-effect waves-light btn-small red" 
-                                href="{% url 'comment_remove' id=comment.id %}">
-                                <i class="material-icons">clear</i></a>
-                        </div>
-                        <div class="col s1">
-                            <a class="waves-effect waves-light btn-small green" 
-                                href="{% url 'comment_approve' id=comment.id %}">
-                                <i class="material-icons">done</i></a>
-                        </div>
-                        {% endif %}
-                    </div>
-                    <p>{{ comment.body }}</p>
-                </li>
+                {% include "posts/comment_card.html" %}
             {% endif %}
         {% empty %}
             <p>No comments here yet.</p>
         {% endfor %}
     </ul>
 
-    <button id="ajax_comment">AJAX COMMENT</button>
-
-    <div id = "ajax_comment_container"></div>
+    
 
     {% if post.published_at %}
         <!-- if published, go back to main site -->
