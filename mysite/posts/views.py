@@ -122,15 +122,16 @@ def add_comment_to_post(request, id):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-            return HttpResponse('comment posted')
-        else:
-            return HttpResponse('invalid form post!')
+            return JsonResponse({
+                'author': comment.author,
+                'body': comment.body
+            })
     else:
         context = {
             'form': CommentForm(),
             'post_id': post.id
         }
-    return render(request, 'posts/add_comment_to_post.html', context)
+        return render(request, 'posts/add_comment_to_post.html', context)
 
 @login_required
 def comment_approve(request, id):
@@ -150,7 +151,6 @@ def comment_like(request, id):
     user_id = request.user.id
 
     # get count of likes
-    
     num_likes = Comment.objects.filter(likes__id=user_id).filter(id=id).count()
 
     if num_likes == 0:
@@ -169,6 +169,5 @@ def comment_like(request, id):
         'action': action,
         'comment_id': id
     }
-
 
     return JsonResponse(response)

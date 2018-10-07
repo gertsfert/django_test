@@ -43,24 +43,61 @@
     <script>
         // AJAX COMMENT FORM
         let createCommentBtn = document.getElementById('ajax_comment');
+        let submitCommentBtn = null;
         let form_shown = false;
         createCommentBtn.addEventListener("click", createCommentBtnPressed);
         
         function createCommentBtnPressed() {
+            // toggles the form showing
             console.log('createCommentBtnPressed!');
             form_shown = !form_shown;
             if (form_shown) {
-                let link = document.querySelector('head link[rel="import"]');
-    
-                // clone the template in the import
-                let template = link.import.querySelector('template');
-                let clone = document.importNode(template.content, true);
-    
-                document.querySelector('#ajax_comment_container').appendChild(clone);
+                showCommentForm();
             } else {
-                // delete form
-                document.querySelector('#comment_ajax_template').remove();
+                hideCommentForm();
             }
+        }
+
+        function showCommentForm() {
+            let link = document.querySelector('head link[rel="import"]');
+            let template = link.import.querySelector('template');
+            let clone = document.importNode(template.content, true);
+            document.querySelector('#ajax_comment_container').appendChild(clone);
+
+            submitCommentBtn = document.getElementById('submit_comment_btn');
+            submitCommentBtn.addEventListener("click", submitComment);
+        }
+
+        function hideCommentForm() {
+            document.querySelector('#comment_ajax_template').remove();
+        }
+
+        // handles the AJAX POST
+        function submitComment() {
+            console.log('submitBtnPressed');
+            
+            let url = submitCommentBtn.getAttribute('data-submiturl');
+
+            let commentForm = document.getElementById('comment_form');
+            let formData = new FormData(commentForm);
+
+            let c_author = document.getElementById('data-comment_author').value;
+            let c_body = document.getElementById('data-comment_body').value;
+         
+            let xhr = new XMLHttpRequest();
+            
+            xhr.open('POST', url, true);
+
+            xhr.onload = function(){
+                if (this.status == 200) {
+                    let responseJSON = JSON.parse(this.response);
+                    console.log(responseJSON);
+
+                    hideCommentForm();
+                }
+            }
+            
+            xhr.send(formData);
         }
     </script>
 {% endblock %}

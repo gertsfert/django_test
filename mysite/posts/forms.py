@@ -17,4 +17,9 @@ class CommentForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['body'].widget.attrs.update({'class': 'materialize-textarea'})
+        self.fields['body'].widget.attrs.update({
+            'class': 'materialize-textarea',
+            'id': 'data-comment_body'})
+        self.fields['author'].widget.attrs.update({
+            'id': 'data-comment_author'
+        })
